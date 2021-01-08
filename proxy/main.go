@@ -6,13 +6,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"proxy/conf"
-	"proxy/write"
 )
 
 func main() {
-	ip := "192.168.56.1"
-	port := "3000"
-	write.Write(ip, port)
 	host := conf.Check()
 	director := func(request *http.Request) {
 		request.URL.Scheme = "http"

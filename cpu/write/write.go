@@ -1,6 +1,7 @@
 package write
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 )
@@ -15,8 +16,9 @@ func Write(ip string, port string) {
 		}
 	}
 
-	err := ioutil.WriteFile(".env", b, 0666)
+	err := ioutil.WriteFile("../proxy/.env", b, 0666)
 	if err != nil {
+		fmt.Println("err:", err)
 		os.Exit(1)
 	}
 }
