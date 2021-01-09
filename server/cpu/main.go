@@ -2,7 +2,6 @@ package main
 
 import (
 	"cpu/manage"
-	"cpu/write"
 	"flag"
 	"fmt"
 	"log"
@@ -10,11 +9,13 @@ import (
 )
 
 func main() {
-	ip := "192.168.56.1"
-	port := "50000"
-	write.Write(ip, port)
+	/*
+		ip := "192.168.56.1"
+		port := "50000"
+		write.Write(ip, port)
+	*/
 
-	var addr = flag.String("addr", ":8080", "アプリケーションのアドレス")
+	var addr = flag.String("addr", ":50000", "アプリケーションのアドレス")
 	http.HandleFunc("/", manage.Top)
 
 	fmt.Println("Webサーバを開始します。ポート:", *addr)

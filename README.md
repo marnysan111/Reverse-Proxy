@@ -2,7 +2,9 @@
 
 Goでできている**リバースプロキシ**です。
 
-![](https://i.imgur.com/ETUaFqA.png)
+<center>
+<img src="https://i.imgur.com/ETUaFqA.png" width="75%">
+</center>
 
 |用途|番号|
 |---|---|
