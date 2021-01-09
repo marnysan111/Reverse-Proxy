@@ -1,25 +1,33 @@
-# Goで作るリバースプロキシ
+# Reverse-Proxy
 
+Goでできている**リバースプロキシ**です。
 
-## proxyディレクトリ
-リバースプロキシの親サーバにて動作するもの \\
-子サーバより、CPU等の使用率をPOSTしてもらい、それを管理する
+![](https://i.imgur.com/ETUaFqA.png)
 
+|用途|番号|
+|---|---|
+|ユーザのアクセス|80|
+|CPU使用率の管理|50000|
 
-- main.go
+## Installation
 
-リバースプロキシとしての動作をしているファイル
+```
+$ git clone https://github.com/marnysan111/Reverse-Proxy.git
+```
 
-- conf/conf.go
+### Server
 
-.envファイルを読み取って、接続先の情報として、戻り値を吐いてる
+```
+$ cd Reverse-Proxy/server/proxy
+$ docker-compose build
+$ docker-compose up -d
+$ cd ../cpu
+$ go build
+$ ./cpu
+```
 
-- write/write.go
+### Client
 
-.envに書き込みをする
-
-
-## ブランチ
-
-### 1-develop
-- Dockerを導入中…
+```
+$ cd Reverse-Proxy/Client/
+```
