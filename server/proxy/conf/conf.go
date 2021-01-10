@@ -12,7 +12,7 @@ type Host struct {
 	Port string
 }
 
-func Check() Host {
+func HostCheck() Host {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println(err)

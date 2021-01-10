@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	host := conf.Check()
+	host := conf.HostCheck()
 	director := func(request *http.Request) {
 		request.URL.Scheme = "http"
 		request.URL.Host = host.IP + ":" + host.Port

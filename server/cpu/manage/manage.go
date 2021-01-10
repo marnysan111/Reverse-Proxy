@@ -10,7 +10,7 @@ import (
 )
 
 type Status struct {
-	Id       int    `json:"id"`
+	Id       string `json:"id"`
 	HostName string `json:"hostname"`
 	CPU      string `json:"cpu"`
 }
@@ -31,17 +31,12 @@ func Top(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		err = json.Unmarshal(body, &status)
 		if err != nil {
 			log.Fatal(err)
 		}
-		/*
-			decoded, err := url.QueryUnescape(string(body))
-			if err != nil {
-				log.Fatal(err)
-			}
-		*/
-		fmt.Println("[DATA]", status)
+		fmt.Println("[ID]", status.Id)
 
 	}
 
