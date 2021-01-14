@@ -1,24 +1,30 @@
-package check
+package main
 
-/*
-type Status struct {
-	Id       string `json:"id"`
-	HostName string `json:"hostname"`
-	CPU      string `json:"cpu"`
-}
+import (
+	"context"
+	"fmt"
+	"time"
 
-func StatusCheck() Status {
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println(err)
+	"github.com/shirou/gopsutil/cpu"
+)
+
+func main() {
+	/*
+			v, _ := mem.VirtualMemory()
+			fmt.Println(v)
+			fmt.Printf("Total: %v, Free:%v, UsedPercent:%f%%\n", v.Total, v.Free, v.UsedPercent)
+
+		//a, _ := cpu.Info()
+		b, _ := cpu.Times(false)
+		fmt.Println(b)
+	*/
+
+	ctx, _ := context.WithCancel(context.Background())
+	fmt.Println(ctx)
+	var cpuPercent []float64
+	for {
+		cpuPercent, _ = cpu.PercentWithContext(ctx, 0, true)
+		fmt.Println(cpuPercent)
+		time.Sleep(time.Second * 2)
 	}
-	var status Status = Status{
-		Id:       os.Getenv("Id"),
-		HostName: os.Getenv("HostName"),
-		CPU:      os.Getenv("CPU"),
-	}
-
-	fmt.Println(status)
-	return status
 }
-*/

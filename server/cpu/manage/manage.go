@@ -10,9 +10,11 @@ import (
 )
 
 type Status struct {
-	Id       string `json:"id"`
+	Id       int    `json:"id"`
 	HostName string `json:"hostname"`
 	CPU      string `json:"cpu"`
+	IP       string `json:"ip"`
+	PORT     int    `json:"port"`
 }
 
 func Top(w http.ResponseWriter, r *http.Request) {
@@ -25,20 +27,33 @@ func Top(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[Method]:", method)
 
 	if method == "POST" {
-		defer r.Body.Close()
-		var status Status
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = json.Unmarshal(body, &status)
-		if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Println("[ID]", status.Id)
+		Check(r)
 
 	}
 
 	t.Execute(w, nil)
+}
+
+func Check(r *http.Request) {
+	defer r.Body.Close()
+	var status Status
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = json.Unmarshal(body, &status)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("[ID]", status.Id)
+	JsonWrite(status)
+}
+
+func JsonWrite(status Status) {
+	data := map[string]interface{}{
+		"id":       status.Id,
+		"HostName": status.HostName,
+	}
+	fmt.Println(data)
 }
