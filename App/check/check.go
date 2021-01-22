@@ -1,14 +1,12 @@
-package main
+package check
 
 import (
 	"context"
-	"fmt"
-	"time"
 
 	"github.com/shirou/gopsutil/cpu"
 )
 
-func main() {
+func CheckStatus() []float64 {
 	/*
 			v, _ := mem.VirtualMemory()
 			fmt.Println(v)
@@ -20,11 +18,10 @@ func main() {
 	*/
 
 	ctx, _ := context.WithCancel(context.Background())
-	fmt.Println(ctx)
 	var cpuPercent []float64
-	for {
-		cpuPercent, _ = cpu.PercentWithContext(ctx, 0, true)
-		fmt.Println(cpuPercent)
-		time.Sleep(time.Second * 2)
-	}
+	cpuPercent, _ = cpu.PercentWithContext(ctx, 0, true)
+	//fmt.Println(cpuPercent)
+	//st <- cpuPercent
+	//fmt.Println(cpuPercent)
+	return cpuPercent
 }

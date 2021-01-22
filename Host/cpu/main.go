@@ -18,6 +18,8 @@ func main() {
 	var addr = flag.String("addr", ":50000", "アプリケーションのアドレス")
 	http.HandleFunc("/", manage.Top)
 
+	//go com.GetCpu()
+
 	fmt.Println("Webサーバを開始します。ポート:", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {
 		log.Fatal(err)

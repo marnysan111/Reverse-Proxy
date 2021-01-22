@@ -1,8 +1,8 @@
-module client
+module app
 
 go 1.15
 
 require (
-	github.com/shirou/gopsutil v3.20.12+incompatible // indirect
-	golang.org/x/sys v0.0.0-20210113181707-4bcb84eeeb78 // indirect
+	github.com/gorilla/mux v1.8.0
+	github.com/shirou/gopsutil v3.20.12+incompatible
 )
