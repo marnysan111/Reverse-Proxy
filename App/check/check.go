@@ -1,7 +1,9 @@
 package check
 
 import (
+	"app/json"
 	"context"
+	"fmt"
 
 	"github.com/shirou/gopsutil/cpu"
 )
@@ -23,5 +25,9 @@ func CheckStatus() []float64 {
 	//fmt.Println(cpuPercent)
 	//st <- cpuPercent
 	//fmt.Println(cpuPercent)
+
+	//data := json.JsonConv(cpuPercent)
+	data := json.JsonConv(cpuPercent)
+	fmt.Println(data)
 	return cpuPercent
 }
