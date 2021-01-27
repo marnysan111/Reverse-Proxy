@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app/check"
+	"app/status"
 	"fmt"
 	"net/http"
 
@@ -9,13 +9,6 @@ import (
 )
 
 func main() {
-	/*
-		st := make(chan []float64)
-		go check.CheckStatus(st)
-		status := <-st
-		fmt.Println("status is", status)
-	*/
-	//go check.CheckStatus()
 	r := mux.NewRouter()
 	r.HandleFunc("/json", jsonCheck)
 	http.Handle("/", r)
@@ -23,6 +16,6 @@ func main() {
 }
 
 func jsonCheck(w http.ResponseWriter, q *http.Request) {
-	status := check.CheckStatus()
+	status := status.StatusCheck()
 	fmt.Fprint(w, status)
 }
