@@ -2,7 +2,9 @@ package main
 
 import (
 	"app/status"
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,6 +18,11 @@ func main() {
 }
 
 func jsonCheck(w http.ResponseWriter, q *http.Request) {
-	status := status.StatusCheck()
-	fmt.Fprint(w, status)
+	data := status.StatusCheck()
+	status, err := json.Marshal(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Fprint(w, string(status))
 }

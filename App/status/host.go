@@ -1,13 +1,14 @@
 package status
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
 	"github.com/shirou/gopsutil/host"
 )
 
-type InfoStat struct {
+type HostInfoStat struct {
 	Hostname             string `json:"hostname"`
 	Uptime               uint64 `json:"uptime"`
 	BootTime             uint64 `json:"bootTime"`
@@ -23,11 +24,19 @@ type InfoStat struct {
 	HostID               string `json:"hostid"`             // ex: uuid
 }
 
-func HostCheck()  {
+func HostCheck() HostInfoStat {
 	hostStatus, err := host.Info()
 	if err != nil {
 		log.Println("[hostStatus]:", err)
-		return
 	}
-	fmt.Println(hostStatus)
+	var host HostInfoStat
+	data, err := json.Marshal(hostStatus)
+	if err != nil {
+		fmt.Print(err)
+	}
+	err = json.Unmarshal(data, &host)
+	if err != nil {
+		fmt.Print(err)
+	}
+	return host
 }
