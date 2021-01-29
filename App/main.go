@@ -25,4 +25,5 @@ func jsonCheck(w http.ResponseWriter, q *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprint(w, string(status))
+	fmt.Println("access")
 }
