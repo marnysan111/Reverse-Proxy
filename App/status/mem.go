@@ -25,6 +25,7 @@ type SwapMemoryStat struct {
 	UsedPercent float64 `json:"usedPercent"`
 }
 
+/* メモリー使用率を取得する */
 func MemCheck() (VirtualMemoryStat, SwapMemoryStat) {
 	var virtualmemory VirtualMemoryStat
 	var swapmemory SwapMemoryStat

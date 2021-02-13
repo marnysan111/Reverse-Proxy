@@ -1,57 +1,64 @@
 package get
 
 import (
+	"cpu/db"
+	"cpu/status"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
+/* jsonのIPを取得してGETする関数を呼び出す */
 func GetStatus() {
-	host := GetHost()
+	host, err := GetHost()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	for _, h := range host {
-		GetDo(h.IP)
+		data := GetDo(h.IP)
+		db.DbInsert(data)
 	}
 }
 
-func GetHost() []IP {
-	var IpAdd []IP
+/* jsonからGETするマシンのIPを取得する */
+func GetHost() ([]status.IP, error) {
+	var IpAdd []status.IP
 	bytes, err := ioutil.ReadFile("get/ip.json")
 	if err != nil {
-		fmt.Println(err)
+		return IpAdd, err
 	}
 	err = json.Unmarshal(bytes, &IpAdd)
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return IpAdd, err
 	}
-	//data, err := json.Marshal(IpAdd)
-	if err != nil {
-		fmt.Println(err)
-		return nil
-	}
-	/*
-		fmt.Println(IpAdd)
-		for _, p := range IpAdd {
-			fmt.Println(p.IP)
-		}
-	*/
-	return IpAdd
+	return IpAdd, nil
 }
 
-func GetDo(ipadd string) {
+/* Getする関数 */
+func GetDo(ipadd string) status.AllInfo {
+	var allinfo status.AllInfo
 	r, err := http.Get("http://" + ipadd + "/json")
 	if err != nil {
 		fmt.Println(err)
+		return allinfo
 	}
 	defer r.Body.Close()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println(err)
+		return allinfo
 	}
-	var allinfo AllInfo
 	if err := json.Unmarshal(body, &allinfo); err != nil {
 		fmt.Println(err)
+		return allinfo
 	}
-	fmt.Println(allinfo)
+
+	allinfo.CPU.Hostname = allinfo.Host.Hostname
+	allinfo.VirMem.Hostname = allinfo.Host.Hostname
+	allinfo.SwapMem.Hostname = allinfo.Host.Hostname
+	allinfo.Host.IpAdd = ipadd
+
+	return allinfo
 }

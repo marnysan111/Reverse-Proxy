@@ -8,4 +8,5 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/shirou/gopsutil v3.20.12+incompatible
 	golang.org/x/sys v0.0.0-20210124154548-22da62e12c0c // indirect
+	gorm.io/gorm v1.20.12
 )

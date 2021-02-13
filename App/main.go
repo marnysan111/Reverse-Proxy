@@ -11,12 +11,15 @@ import (
 )
 
 func main() {
+
 	r := mux.NewRouter()
 	r.HandleFunc("/json", jsonCheck)
 	http.Handle("/", r)
 	http.ListenAndServe(":50000", nil)
+
 }
 
+/* jsonを返す */
 func jsonCheck(w http.ResponseWriter, q *http.Request) {
 	data := status.StatusCheck()
 	status, err := json.Marshal(data)

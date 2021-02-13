@@ -17,6 +17,7 @@ type HostInfoStat struct {
 	KernelArch string `json:"kernelArch"` // native cpu architecture queried at runtime, as returned by `uname -m` or empty string in case of error
 }
 
+/* ホスト情報を取得する */
 func HostCheck() HostInfoStat {
 	hostStatus, err := host.Info()
 	if err != nil {

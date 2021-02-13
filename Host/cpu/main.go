@@ -2,9 +2,10 @@ package main
 
 import (
 	"cpu/db"
+	"cpu/get"
 )
 
 func main() {
-	//get.GetStatus()
 	db.DbInit()
+	get.GetStatus()
 }
