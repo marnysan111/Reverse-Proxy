@@ -63,6 +63,7 @@ func DbInsert(data status.AllInfo) {
 	db.Create(&status.HostInfoStat{
 		Hostname:   host.Hostname,
 		IpAdd:      host.IpAdd,
+		Port:       host.Port,
 		Uptime:     host.Uptime,
 		Procs:      host.Procs,
 		OS:         host.OS,
@@ -100,13 +101,14 @@ func DbInsert(data status.AllInfo) {
 
 	/* hostnameの重複を確認→hostnameの唯一性 */
 	if err = db.Where("hostname = ?", host.Hostname).First(&hostname).Error; err == nil {
-		fmt.Println("同じhostnameが使用されています")
+		//fmt.Println("同じhostnameが使用されています")
 		return
 		/* 重複されてなければ追加 */
 	} else {
 		db.Create(&status.HostList{
 			Hostname: host.Hostname,
 			IpAdd:    host.IpAdd,
+			Port:     host.Port,
 		})
 	}
 }

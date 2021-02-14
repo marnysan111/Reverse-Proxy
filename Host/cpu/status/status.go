@@ -3,7 +3,8 @@ package status
 import "gorm.io/gorm"
 
 type IP struct {
-	IP string `json:"IPADD"`
+	IP   string `json:"IPADD"`
+	PORT string `json:"PORT"`
 }
 
 type AllInfo struct {
@@ -17,6 +18,7 @@ type HostInfoStat struct {
 	gorm.Model
 	Hostname   string `json:"hostname"`
 	IpAdd      string `json:"IP"`
+	Port       string `json:"PORT"`
 	Uptime     uint64 `json:"uptime"`
 	Procs      uint64 `json:"procs"`      // number of processes
 	OS         string `json:"os"`         // ex: freebsd, linux
@@ -59,4 +61,5 @@ type HostList struct {
 	gorm.Model
 	Hostname string `json:"hostname"`
 	IpAdd    string `json:"IP"`
+	Port     string `json:"PORT"`
 }

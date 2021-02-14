@@ -17,7 +17,7 @@ func GetStatus() {
 		return
 	}
 	for _, h := range host {
-		data := GetDo(h.IP)
+		data := GetDo(h.IP, h.PORT)
 		db.DbInsert(data)
 	}
 }
@@ -37,9 +37,9 @@ func GetHost() ([]status.IP, error) {
 }
 
 /* Getする関数 */
-func GetDo(ipadd string) status.AllInfo {
+func GetDo(ipadd string, port string) status.AllInfo {
 	var allinfo status.AllInfo
-	r, err := http.Get("http://" + ipadd + "/json")
+	r, err := http.Get("http://" + ipadd + ":" + port + "/json")
 	if err != nil {
 		fmt.Println(err)
 		return allinfo
@@ -59,6 +59,7 @@ func GetDo(ipadd string) status.AllInfo {
 	allinfo.VirMem.Hostname = allinfo.Host.Hostname
 	allinfo.SwapMem.Hostname = allinfo.Host.Hostname
 	allinfo.Host.IpAdd = ipadd
+	allinfo.Host.Port = port
 
 	return allinfo
 }
