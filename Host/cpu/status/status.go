@@ -59,7 +59,14 @@ type SwapMemoryStat struct {
 
 type HostList struct {
 	gorm.Model
+	Id       int    `json:"id"`
 	Hostname string `json:"hostname"`
 	IpAdd    string `json:"IP"`
 	Port     string `json:"PORT"`
+}
+
+type HostStatus struct {
+	gorm.Model
+	Hostname string `json:"hostname"`
+	Score    uint64 `json:"score"`
 }

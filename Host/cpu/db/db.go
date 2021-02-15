@@ -100,6 +100,9 @@ func DbInsert(data status.AllInfo) {
 	})
 
 	/* hostnameの重複を確認→hostnameの唯一性 */
+	if host.Hostname == "" {
+		return
+	}
 	if err = db.Where("hostname = ?", host.Hostname).First(&hostname).Error; err == nil {
 		//fmt.Println("同じhostnameが使用されています")
 		return

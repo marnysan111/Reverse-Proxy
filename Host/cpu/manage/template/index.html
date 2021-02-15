@@ -27,7 +27,7 @@
     <div class="container">
         <div class="col-md-12">
         <table class="table">
-            <thead>
+            <thead class="thead-dark">
               <tr>
                 <th>ID</th>
                 <th>HostName</th>
@@ -36,14 +36,14 @@
             </thead>
         {{ range .hostdata }}
             <tbody>
-              <tr class="table-info">
+              <tr class="table">
                 <th scope="row">{{ .ID }}</th>
                 <td><a href="/detail/{{.ID}}">{{ .Hostname }}</a> </td>
                 <td>{{ .IpAdd }}</td>
               </tr>
             </tbody>
-          </table>
         {{ end }}
+          </table>
     </div>
     </div>
 

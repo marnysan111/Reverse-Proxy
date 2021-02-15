@@ -1,9 +1,69 @@
 package write
 
 import (
+	"cpu/db"
+	"cpu/status"
 	"fmt"
 	"io/ioutil"
 )
+
+/* 送信先のホストを決めるための評価 */
+func HostGet() {
+	DB, err := db.DbCommect()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	var hostlist []status.HostList
+	//var host status.HostList
+	var id int
+	var score float64
+	DB.Select("id,hostname").Find(&hostlist)
+	fmt.Println(hostlist[0].Id, hostlist[0].Hostname)
+	for _, i := range hostlist {
+		var s float64
+		cpu, err := db.CpuCheckOne(i.Hostname)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		vir, err := db.VirCheckOne(i.Hostname)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		swa, err := db.SwaCheckOne(i.Hostname)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		for _, j := range cpu {
+			s += j.Cpu0 + j.Cpu1 + j.Cpu2 + j.Cpu3
+		}
+		s = s / 4
+		for _, j := range vir {
+			s += j.UsedPercent
+		}
+		for _, j := range swa {
+			s += j.UsedPercent
+		}
+		if score >= s || score == 0 {
+			id = i.Id
+			score = s
+		}
+		//fmt.Println(i.Hostname, s)
+	}
+	host, err := db.HostCheckOne(id)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = WriteEnv(host.IpAdd, host.Port)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+}
 
 /* Host/proxyのenvに書き込み */
 func WriteEnv(ip string, port string) error {
@@ -15,10 +75,10 @@ func WriteEnv(ip string, port string) error {
 			b = append(b, l)
 		}
 	}
-
 	err := ioutil.WriteFile("../proxy/.env", b, 0666)
 	if err != nil {
 		fmt.Println("err:", err)
 		return err
 	}
+	return nil
 }

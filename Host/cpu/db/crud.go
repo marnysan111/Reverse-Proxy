@@ -30,41 +30,41 @@ func HostCheckOne(id int) (status.HostList, error) {
 	return hostlist, nil
 }
 
-func CpuCheckOne(hostname string) (status.CPUStat, error) {
+func CpuCheckOne(hostname string) ([]status.CPUStat, error) {
 	db, err := DbCommect()
 	if err != nil {
-		return status.CPUStat{}, err
+		return nil, err
 	}
-	var cpustat status.CPUStat
-	err = db.Where(&status.CPUStat{Hostname: hostname}).Find(&cpustat).Error
+	var cpustat []status.CPUStat
+	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&cpustat).Error
 	if err != nil {
-		return status.CPUStat{}, err
+		return nil, err
 	}
-	return cpustat, err
+	return cpustat, nil
 }
 
-func VirCheckOne(hostname string) (status.VirtualMemoryStat, error) {
+func VirCheckOne(hostname string) ([]status.VirtualMemoryStat, error) {
 	db, err := DbCommect()
 	if err != nil {
-		return status.VirtualMemoryStat{}, err
+		return nil, err
 	}
-	var virstat status.VirtualMemoryStat
-	err = db.Where(&status.VirtualMemoryStat{Hostname: hostname}).Find(&virstat).Error
+	var virstat []status.VirtualMemoryStat
+	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&virstat).Error
 	if err != nil {
-		return status.VirtualMemoryStat{}, err
+		return nil, err
 	}
-	return virstat, err
+	return virstat, nil
 }
 
-func SwaCheckOne(hostname string) (status.SwapMemoryStat, error) {
+func SwaCheckOne(hostname string) ([]status.SwapMemoryStat, error) {
 	db, err := DbCommect()
 	if err != nil {
-		return status.SwapMemoryStat{}, err
+		return nil, err
 	}
-	var swastat status.SwapMemoryStat
-	err = db.Where(&status.SwapMemoryStat{Hostname: hostname}).Find(&swastat).Error
+	var swastat []status.SwapMemoryStat
+	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&swastat).Error
 	if err != nil {
-		return status.SwapMemoryStat{}, err
+		return nil, err
 	}
-	return swastat, err
+	return swastat, nil
 }

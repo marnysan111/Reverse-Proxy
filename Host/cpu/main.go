@@ -4,6 +4,7 @@ import (
 	"cpu/db"
 	"cpu/get"
 	"cpu/manage"
+	"cpu/write"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,7 @@ func main() {
 
 	//for {}
 	get.GetStatus()
+	write.HostGet()
 	// ip, port := ConnectCheck()
 	// write.WriteEnv()
 
