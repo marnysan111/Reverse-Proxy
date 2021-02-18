@@ -27,6 +27,7 @@ func Detail(c *gin.Context) {
 		return
 	}
 	host, err := db.HostCheckOne(id)
+
 	if err != nil {
 		fmt.Println("HostCheckOne ERROR:", err)
 		return

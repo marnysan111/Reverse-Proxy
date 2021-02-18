@@ -2,6 +2,7 @@ package db
 
 import (
 	"cpu/status"
+	"fmt"
 )
 
 func HostCheckAll() ([]status.HostList, error) {
@@ -10,6 +11,12 @@ func HostCheckAll() ([]status.HostList, error) {
 		return nil, err
 	}
 	var hostlist []status.HostList
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return hostlist, err
+	}
+	defer dbClose.Close()
 	err = db.Select("id", "hostname", "ip_add", "port").Find(&hostlist).Error
 	if err != nil {
 		return nil, err
@@ -23,6 +30,12 @@ func HostCheckOne(id int) (status.HostList, error) {
 		return status.HostList{}, err
 	}
 	var hostlist status.HostList
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return hostlist, nil
+	}
+	defer dbClose.Close()
 	err = db.First(&hostlist, id).Error
 	if err != nil {
 		return status.HostList{}, err
@@ -36,6 +49,12 @@ func CpuCheckOne(hostname string) ([]status.CPUStat, error) {
 		return nil, err
 	}
 	var cpustat []status.CPUStat
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return cpustat, nil
+	}
+	defer dbClose.Close()
 	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&cpustat).Error
 	if err != nil {
 		return nil, err
@@ -49,6 +68,12 @@ func VirCheckOne(hostname string) ([]status.VirtualMemoryStat, error) {
 		return nil, err
 	}
 	var virstat []status.VirtualMemoryStat
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return virstat, nil
+	}
+	defer dbClose.Close()
 	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&virstat).Error
 	if err != nil {
 		return nil, err
@@ -62,6 +87,12 @@ func SwaCheckOne(hostname string) ([]status.SwapMemoryStat, error) {
 		return nil, err
 	}
 	var swastat []status.SwapMemoryStat
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return swastat, nil
+	}
+	defer dbClose.Close()
 	err = db.Where("hostname = ?", hostname).Order("id desc").Limit(5).Find(&swastat).Error
 	if err != nil {
 		return nil, err

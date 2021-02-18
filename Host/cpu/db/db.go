@@ -39,6 +39,12 @@ func DbInit() {
 		fmt.Println(err)
 		return
 	}
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer dbClose.Close()
 	db.AutoMigrate(&status.HostInfoStat{})
 	db.AutoMigrate(&status.VirtualMemoryStat{})
 	db.AutoMigrate(&status.SwapMemoryStat{})
@@ -53,6 +59,12 @@ func DbInsert(data status.AllInfo) {
 		fmt.Println(err)
 		return
 	}
+	dbClose, err := db.DB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer dbClose.Close()
 
 	host := data.Host
 	cpu := data.CPU
@@ -114,6 +126,7 @@ func DbInsert(data status.AllInfo) {
 			Port:     host.Port,
 		})
 	}
+	return
 }
 
 //https://www.dbonline.jp/mysql/type/index8.html これは？

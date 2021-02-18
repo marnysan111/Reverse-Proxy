@@ -15,6 +15,12 @@ func HostGet() {
 		return
 	}
 	var hostlist []status.HostList
+	dbClose, err := DB.DB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer dbClose.Close()
 	//var host status.HostList
 	var id int
 	var score float64

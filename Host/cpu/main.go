@@ -5,6 +5,7 @@ import (
 	"cpu/get"
 	"cpu/manage"
 	"cpu/write"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,9 +14,7 @@ func main() {
 	/* ラズパイの情報vを取得する */
 	db.DbInit()
 
-	//for {}
-	get.GetStatus()
-	write.HostGet()
+	go roop()
 	// ip, port := ConnectCheck()
 	// write.WriteEnv()
 
@@ -27,4 +26,12 @@ func main() {
 	r.GET("/detail/:id", manage.Detail)
 
 	r.Run(":8080")
+}
+
+func roop() {
+	for {
+		get.GetStatus()
+		write.HostGet()
+		time.Sleep(time.Second * 10)
+	}
 }
