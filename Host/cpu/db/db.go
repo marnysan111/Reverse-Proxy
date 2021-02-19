@@ -124,6 +124,7 @@ func DbInsert(data status.AllInfo) {
 			Hostname: host.Hostname,
 			IpAdd:    host.IpAdd,
 			Port:     host.Port,
+			Forward:  host.Forward,
 		})
 	}
 	return

@@ -17,7 +17,7 @@ func GetStatus() {
 		return
 	}
 	for _, h := range host {
-		data := GetDo(h.IP, h.PORT)
+		data := GetDo(h.IP, h.PORT, h.Forward)
 		db.DbInsert(data)
 	}
 }
@@ -25,7 +25,7 @@ func GetStatus() {
 /* jsonからGETするマシンのIPを取得する */
 func GetHost() ([]status.IP, error) {
 	var IpAdd []status.IP
-	bytes, err := ioutil.ReadFile("get/ip.json")
+	bytes, err := ioutil.ReadFile("ip.json")
 	if err != nil {
 		return IpAdd, err
 	}
@@ -37,7 +37,7 @@ func GetHost() ([]status.IP, error) {
 }
 
 /* Getする関数 */
-func GetDo(ipadd string, port string) status.AllInfo {
+func GetDo(ipadd string, port string, forward string) status.AllInfo {
 	var allinfo status.AllInfo
 	r, err := http.Get("http://" + ipadd + ":" + port + "/json")
 	if err != nil {
@@ -60,6 +60,7 @@ func GetDo(ipadd string, port string) status.AllInfo {
 	allinfo.SwapMem.Hostname = allinfo.Host.Hostname
 	allinfo.Host.IpAdd = ipadd
 	allinfo.Host.Port = port
+	allinfo.Host.Forward = forward
 
 	return allinfo
 }

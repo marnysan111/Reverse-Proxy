@@ -25,7 +25,6 @@ func HostGet() {
 	var id int
 	var score float64
 	DB.Select("id,hostname").Find(&hostlist)
-	fmt.Println(hostlist[0].Id, hostlist[0].Hostname)
 	for _, i := range hostlist {
 		var s float64
 		cpu, err := db.CpuCheckOne(i.Hostname)
@@ -64,7 +63,7 @@ func HostGet() {
 		fmt.Println(err)
 		return
 	}
-	err = WriteEnv(host.IpAdd, host.Port)
+	err = WriteEnv(host.IpAdd, host.Forward)
 	if err != nil {
 		fmt.Println(err)
 		return
