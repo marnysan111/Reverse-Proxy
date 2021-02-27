@@ -16,7 +16,7 @@ func DbCommect() (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	USER := os.Getenv("USER")
+	USER := os.Getenv("DBUSER")
 	PASS := os.Getenv("DBPASS")
 	PROTOCOL := os.Getenv("DBIP")
 	TABLE := os.Getenv("DBTABLE")
